@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you clone and use this repository, please cite it as below."
+authors:
+  - family-names: Shiyang
+    given-names: Lai
+    orcid: https://orcid.org/0000-0001-8393-6151
+title: "Asymmetric spillovers between cryptocurrencies and conventional currencies: the evolution of cross-market connectedness and predictive power"
+date-released: 2022-04-24
