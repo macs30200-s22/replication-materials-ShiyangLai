@@ -14,7 +14,8 @@ library(psych)
 library(tseries)
 library(rtadfr)
 library(Hmisc)
-
+library(igraph)
+library(influenceR)
 
 focals <- c("USDBTC", "USDDOGE", "USDLTC", "USDXRP", "USDETH",  
             "USDEUR", "USDJPY", "USDGBP", "USDAUD", "USDCAD",

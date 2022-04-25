@@ -189,9 +189,58 @@ plot_grid(return_connectedness$withinshort, preturn_connectedness$withinshort,
           nreturn_connectedness$withinlong, volatility_connectedness$withinlong,
           align = 'v', cols = 4)
 
+# get spillover
+cl <- makeCluster(6)
+clusterEvalQ(cl, library(BigVAR))
+clusterEvalQ(cl, library(frequencyConnectedness))
+sp <- spilloverRollingDY12(data=volatility.matrix, func_est='big_var_est', params_est=list(),
+                           window=100, no.corr=F, cluster = cl)
+stopCluster(cl)
+p_cry_trad <- vector(mode="numeric", length=0)
+p_trad_cry <- vector(mode="numeric", length=0)
+for (i in time_length) {
+  cry_trad <- as.numeric(sp$list_of_tables[[i]][[1]][[1]][conven, crypto])
+  trad_cry <- as.numeric(sp$list_of_tables[[i]][[1]][[1]][crypto, conven])
+  p_cry_trad <- append(p_cry_trad, sum(cry_trad) / (length(conven) * length(crypto)))
+  p_trad_cry <- append(p_trad_cry, sum(trad_cry) / (length(conven) * length(crypto)))
+}
+dates <- seq(as.Date("2015-8-8"), as.Date("2022-1-1"), by = "days")
+colors <- c("Curren->Crypto" = "#002f56", "Crypto->Curren" = "#990000")
+curve_frame <- data.frame(x=c(as.Date('2020-03-01')),
+                          y=c(0.018),
+                          xend=c(as.Date('2019-12-01')),
+                          yend=c(0.019))
 
-plot_grid(a1, a2, a3,
-          align = 'v', cols = 1)
-
-
-
+ggplot() +
+  geom_rect(aes(xmin=as.Date('2020-01-21'),xmax=as.Date('2022-01-01'),ymin=0,ymax=Inf), fill="#FF6363", alpha=0.3) +
+  geom_rect(aes(xmin=as.Date('2015-11-15'),xmax=as.Date('2018-03-07'),ymin=0,ymax=Inf), fill="#417D7A", alpha=0.3) +
+  geom_rect(aes(xmin=as.Date('2020-10-28'),xmax=as.Date('2022-01-01'),ymin=0,ymax=Inf), fill="#417D7A", alpha=0.3) +
+  geom_point(aes(x=dates[time_length], y=p_cry_trad, color='Crypto->Curren'), size=1, alpha=0.2) +
+  geom_point(aes(x=dates[time_length], y=p_trad_cry, color='Curren->Crypto'), size=1, alpha=0.2) +
+  # geom_smooth(aes(x=dates[time_length], y=p_cry_trad), method = 'loess', level=0.99,
+  #             formula = y ~ x, color='#990000', size=1, span=0.4) +
+  # geom_smooth(aes(x=dates[time_length], y=p_trad_cry), method = 'loess', level=0.99,
+  #             formula = y ~ x, color='#002f56', size=1, span=0.4) +
+  labs(y="Connectedness", x="Time", color='') +
+  scale_color_manual(values = colors) + theme_cowplot() +
+  theme(legend.position = 'none', plot.margin = margin(0.5,0.5,0.5,0.5, "cm"), 
+        text=element_text(family="Times New Roman", size=10),
+        axis.text.x = element_text(size = 10),
+        axis.text.y = element_text(size = 10)) +
+  geom_curve(
+    aes(x = x, y = y, xend = xend, yend = yend),
+    data = curve_frame,
+    curvature = -0.4,
+    angle = 90
+  ) + geom_point(
+    aes(x=xend, y=yend), 
+    data = curve_frame,
+    color = "black"
+  ) + geom_text(
+    aes(x, y, label = labels), color='black',
+    data = data.frame(x=as.Date('2019-12-01'), y=0.019, labels='COVID-19'),
+    hjust = 1.2,
+    family = "Times New Roman",
+    size = 3.3,
+  ) + ylim(c(0, 0.02))
+  

@@ -135,3 +135,17 @@ plot_grid(a1, a2, a3, a4, a5, NULL, ncol=3, nrow=2, align = 'hv') +
   draw_grob(legend3, 0.66, 0, 0.5, 0.4)
 
 
+# determine the bubble periods
+check_vec <- vector(mode='numeric')
+for (i in c(1: length(StampDf.BTC$The.backward.SADF.sequence..left.axis.))) {
+  if (is.na(StampDf.BTC$The.backward.SADF.sequence..left.axis.[i]) == FALSE) {
+    if (StampDf.BTC$The.95..critical.value.sequence..left.axis.[i] < StampDf.BTC$The.backward.SADF.sequence..left.axis.[i]) {
+      check_vec <- append(check_vec, 1)
+    } else {
+      check_vec <- append(check_vec, 0)
+    }
+  } else {
+    check_vec <- append(check_vec, 0)
+  }
+}
+
