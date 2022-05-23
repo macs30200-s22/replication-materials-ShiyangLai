@@ -7,19 +7,20 @@ This repository aims at sharing the code for paper _Asymmetric spillovers betwee
 
 ## __Results__
 ### __Part A__
-![img1](img1.png)
-__Figure 1: The full-sample frequency connectedness of the 14 currencies from August 8, 2015 to January 1, 2022.__ The frequency connectedness is measured based on returns (upper left), positive returns (upper right), negative returns (bottom left), and volatility (bottom right), respectively. For each section, the three networks from left to right represent the connectedness matrix within 1 day, 7 days, and 100 days. Red nodes are cryptocurrencies, and blue nodes are conventional currencies. The opacity of nodes is determined by their within-market importance (i.e., within-market subgraph PageRank). The size of nodes indicates their cross-market influence (i.e., cross-market subgraph PageRank). Gray edges are within-market linkages and light purple edges are for cross-market linkages. The width of the edges represents the connectedness level.
+![img2](indegree-all.png)
+__Figure 1A.__ The overall frequency connectedness of the 14 currencies from August 8, 2015 to January 1, 2022 (in-degree representation)
 
-__Initial conclusion:__ (a) Currencies are mostly connected in short-term; (b) In general, BTC acts as the most active nodes within cryptocurrency market, it interacts actively with altcoins. Meanwhile, it also plays as the biggest cross-market negative information receiver and turbulence receiver. (c) Worthing to note that, although BTC is the most important positive spillover transmission node as well, the largest cross-market positive information communicator in the crytocurrency sector is actually XRP. 
+<br>
+
+![img3](outdegree-all.png)
+__Figure 1B.__ The overall frequency connectedness of the 14 currencies from August 8, 2015 to January 1, 2022 (out-degree representation)
 
 __Replication:__ Run <code>network analysis.R</code> in <code>econometric</code> folder to reproduce the graph.
 
 <br>
 
-![img2](img2.png)
-__Figure 2: The dynamic frequency connectedness of crypto and conventional currency markets from August 8, 2015 to January 1, 2022.__ The upper left section (i.e., within market section) shows how the within-market connectedness of cryptocurrency market and conventional currency market changes during the study period. The red line represents the within market connectedness of cryptocurrencies and the darkblue line is the withinmarket connectedness of conventional currencies. The upper right section (i.e., cross market section) shows how connectedness between the two markets evolves during the study period. The red line is the cross-market spillovers from cryptocurrencies to conventional currencies and the darkblue line is the cross-market spillovers from conventional currencies to cryptocurrencies. Both contain 12 (3 rows and 4 columns) subplots. The first to fourth columns in each section, from left to right, represent the return-based, positive return-based, negative return-based, and volatility-based connectedness measurements. The first to third rows correspond to connectedness in different frequency bands (i.e., within one day, within one week, and within 100 days). For the four subplots in the bottom of the figure, they are the dynamic cross-market connectedness without frequency decomposition. Periods with significant Bitcoin price explosivity are shaded in celadon; Pandemic periods are shaded in light red.
-
-__Initial conclusion:__ (a) Within market connectedness in both crypto and conventional currency market is quite stable during the past seven years, whereas the cross-market connectedness changes alot; (b) The corss-market return-based connectedness and the cross-market negative return-based connectedness present a positive trend after 2020, and the cross-market volatility-based connectedness shows a negative trend after 2020; (c) The second explosive period, overlapping with the pandemic period, is asscoicate with the change of the cross-market connectedness.
+![img4](img2.png)
+__Figure 2.__ The dynamic frequency connectedness of crypto and conventional currency markets from August 8, 2015 to January 1, 2020
 
 __Replication:__ Run <code>dynamic_analysis.R</code> in <code>econometric</code> to reproduce the figure.
 
@@ -27,6 +28,24 @@ __Replication:__ Run <code>dynamic_analysis.R</code> in <code>econometric</code>
 
 ### __Part B__
 ![img3](img3.png)
+__Figure 3.__ Experimental design for predictability comparison (BTC as an example)
+
+<br>
+
+![img5](lm_results.svg)
+__Figure 4.__ Rolling window-based predictability comparison via mean absolute percentage error (MAPE)
+
+
+__Replication:__ Run <code>test.ipynb</code> in <code>notebook</code> to reproduce the figure.
+
+<br>
+
+![img6](captum_interpret.svg)
+__Figure 5.__ Comparing input currencies’ importance on the price return prediction of BTC, EUR, DOGE, and AUD, via DeepLift
+
+__Replication:__ Run <code>test.ipynb</code> in <code>notebook</code> to reproduce the figure.
+
+<br>
 
 ## __To-do List__
 - [x] Data preparation
@@ -34,6 +53,6 @@ __Replication:__ Run <code>dynamic_analysis.R</code> in <code>econometric</code>
 - [x] Connectedness calculation
 - [x] Descriptive analysis
 - [x] Visualization Part 1
-- [ ] Machine learning models development
-- [ ] Forecasting experiments
-- [ ] Visualization Part 2
+- [x] Machine learning models development
+- [x] Forecasting experiments
+- [x] Visualization Part 2
